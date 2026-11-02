@@ -43,7 +43,7 @@ lcmd-kb/
 
 - `commands/platforms/<platform>/<language>/` contains operating-system command pages. A normal platform command is one Markdown file.
 - `commands/tools/<tool>/<language>/` contains third-party CLI tool documentation.
-- A complex tool can use `index.md` as its navigation page and separate Markdown files for subcommands.
+- A tool entry page uses the tool directory name, such as `tools/git/zh-CN/git.md` or `tools/docker/zh-CN/docker.md`. Complex tools can add separate Markdown files for subcommands.
 - Nested subcommand paths are represented by nested directories. For example, `tools/docker/zh-CN/compose/up.md` represents `docker compose up`.
 - A simple tool can use one comprehensive page named after the tool, such as `tools/ssh/zh-CN/ssh.md`.
 - Platform and language directories are intended to be discovered from the knowledge base itself. No empty directories for future platforms are required.
@@ -69,8 +69,8 @@ The final schema, navigation metadata, document identity rules, and validation r
 
 - Windows: `dir` in Chinese and English.
 - Linux: `ls` in Chinese and English.
-- Git: navigation, `init`, and `status` pages; English includes navigation and `init`.
-- Docker: navigation, `run`, and the nested `compose up` page in Chinese.
+- Git: `git.md` entry pages, plus `init` and `status` pages; English includes `git.md` and `init`.
+- Docker: `docker.md` entry page, `run`, and the nested `compose up` page in Chinese.
 - SSH: one comprehensive Chinese reference page without a navigation page.
 
 These fixtures are intended to exercise platform/language discovery, tool navigation, simple-tool lookup, nested subcommand paths, and language availability differences.
