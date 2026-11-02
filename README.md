@@ -1,12 +1,12 @@
-# LCMD 官方知识库
+# LCMD Official Knowledge Base
 
-LCMD 官方知识库用于存放命令速查文档与任务指南。知识库以简体中文为首发语言，按平台组织内容，并提供跨平台通用文档回退机制。
+The LCMD knowledge base stores command reference pages and task guides. It is organized by platform and language, with a shared `common` collection used as a fallback when a platform-specific page is absent.
 
-> 当前仓库处于**基础结构搭建阶段**。本次只建立目录结构和版本清单，不包含具体命令或任务文档；知识内容将在后续逐步收录。
+> **Current status:** this repository contains the initial structure and a small set of English sample pages for integration testing. The broader command and task catalog will be added incrementally.
 
-## 版本清单
+## Version manifest
 
-仓库根目录的 `manifest.json` 用于声明知识库版本：
+The repository root contains `manifest.json`, which declares the knowledge-base version:
 
 ```json
 {
@@ -14,91 +14,78 @@ LCMD 官方知识库用于存放命令速查文档与任务指南。知识库以
 }
 ```
 
-版本号遵循 SemVer 2.0.0。当前主程序要求知识库与主程序的 Major 版本兼容；发布不兼容的知识库结构或文档规则时，需要按版本策略调整 Major 版本。
+Versions follow Semantic Versioning 2.0.0. The current application checks Major-version compatibility between the application and the knowledge base.
 
-## 目录结构
+## Directory layout
 
 ```text
 lcmd-kb/
 ├── manifest.json
 ├── README.md
 ├── commands/
-│   ├── common/
-│   │   └── zh-CN/
-│   ├── linux/
-│   │   └── zh-CN/
-│   ├── windows/
-│   │   └── zh-CN/
-│   └── macos/
-│       └── zh-CN/
+│   ├── common/{en-US,zh-CN}/
+│   ├── linux/{en-US,zh-CN}/
+│   ├── windows/{en-US,zh-CN}/
+│   └── macos/{en-US,zh-CN}/
 └── tasks/
-    ├── common/
-    │   └── zh-CN/
-    ├── linux/
-    │   └── zh-CN/
-    ├── windows/
-    │   └── zh-CN/
-    └── macos/
-        └── zh-CN/
+    ├── common/{en-US,zh-CN}/
+    ├── linux/{en-US,zh-CN}/
+    ├── windows/{en-US,zh-CN}/
+    └── macos/{en-US,zh-CN}/
 ```
 
-### 目录用途
+## Platform and language rules
 
-| 目录 | 用途 |
-|---|---|
-| `commands/` | 命令参考文档 |
-| `tasks/` | 操作任务与流程指南 |
-| `common/` | 不依赖特定操作系统、可跨平台使用的文档 |
-| `linux/` | Linux 平台专属文档 |
-| `windows/` | Windows 平台专属文档 |
-| `macos/` | macOS 平台专属文档 |
-| `zh-CN/` | 简体中文文档 |
+- `commands/` contains command reference pages; `tasks/` contains task guides.
+- Supported platform directory names are `common`, `linux`, `windows`, and `macos`.
+- `en-US/` contains English pages; `zh-CN/` contains Simplified Chinese pages.
+- Platform-specific pages take precedence over pages with the same filename in `common`.
+- If a platform-specific page is absent, the application may use the matching `common` page as a fallback.
+- The current loader scans only top-level `*.md` files in each platform/language directory; it does not recurse into nested directories.
 
-平台目录优先于 `common`：同名文档存在时使用平台专属版本；平台目录缺少该文档时，才使用 `common` 中的同名补充文档。
+## Markdown page format
 
-## 文档放置规则
+Each page uses TOML Front Matter delimited by standalone `+++` lines.
 
-- 命令文档直接放在 `commands/<平台>/zh-CN/` 中。
-- 任务文档直接放在 `tasks/<平台>/zh-CN/` 中。
-- 当前加载器扫描上述语言目录下的一级 `*.md` 文件，不递归扫描子目录。
-- 不要把目录说明或普通 README 放进文档扫描目录，以免被识别为知识文档。
-- `.gitkeep` 仅用于保留尚无内容的目录；目录开始收录文档后可以删除对应占位文件。
-
-## Markdown 文档格式
-
-每篇知识文档使用 TOML Front Matter，开头和结尾均为独立的 `+++` 行。
-
-命令文档至少需要非空的 `summary` 字段和非空正文：
+A command page requires a non-empty `summary` and a non-empty Markdown body:
 
 ```markdown
 +++
-summary = "简要说明该命令的用途"
+summary = "Display files and directories in the current location."
 +++
 
-## 基本语法
+## Basic syntax
 
-在这里编写命令说明与示例。
+Describe the command syntax and practical examples here.
 ```
 
-任务文档同样需要 `summary` 和非空正文，可选 `commands` 字符串数组，用于列出相关命令：
+A task page also requires `summary` and a non-empty body. It may include a `commands` array of command names:
 
 ```markdown
 +++
-summary = "简要说明该任务"
-commands = ["命令名称"]
+summary = "List files in the current directory."
+commands = ["dir"]
 +++
 
-## 操作步骤
+## Steps
 
-在这里编写任务步骤。
+Describe the task procedure here.
 ```
 
-以上仅说明当前主程序已实现的文档格式，不代表本次已经收录具体知识内容。
+## English sample pages
 
-## 当前状态
+These short pages are integration-test samples, not a complete command reference:
 
-- [x] 建立知识库根目录与版本清单。
-- [x] 建立 common、Linux、Windows、macOS 的命令和任务目录。
-- [x] 首发语言目录采用 `zh-CN`。
-- [ ] 逐步收录并验证命令文档。
-- [ ] 逐步收录并验证任务文档。
+- `commands/windows/en-US/dir.md`: Windows-specific `dir` page.
+- `commands/common/en-US/dir.md`: same-name shared fallback for checking platform precedence.
+- `commands/common/en-US/git.md`: shared command page for checking common fallback.
+- `tasks/windows/en-US/list-files.md`: sample task page.
+
+## Contribution status
+
+- [x] Create the knowledge-base root and version manifest.
+- [x] Create command and task directories for common, Linux, Windows, and macOS.
+- [x] Add `zh-CN` and `en-US` language directories.
+- [x] Add a minimal set of English sample pages for integration testing.
+- [ ] Gradually expand and validate the command catalog.
+- [ ] Gradually expand and validate the task catalog.
