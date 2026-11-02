@@ -1,8 +1,8 @@
 # LCMD Official Knowledge Base
 
-The LCMD knowledge base stores command reference pages and task guides. It is organized by platform and language, with a shared `common` collection used as a fallback when a platform-specific page is absent.
+LCMD knowledge base stores Markdown command reference pages. It is organized by platform and language, with a shared `common` collection used only when a platform-specific command page is absent.
 
-> **Current status:** this repository contains the initial structure and a small set of English sample pages for integration testing. The broader command and task catalog will be added incrementally.
+> **First-release scope:** Windows x64 and Linux AMD64. Supported documentation languages are Simplified Chinese (`zh-CN`) and English (`en-US`).
 
 ## Version manifest
 
@@ -14,7 +14,7 @@ The repository root contains `manifest.json`, which declares the knowledge-base 
 }
 ```
 
-Versions follow Semantic Versioning 2.0.0. The current application checks Major-version compatibility between the application and the knowledge base.
+Versions follow Semantic Versioning 2.0.0. The application checks Major-version compatibility between the application and the knowledge base.
 
 ## Directory layout
 
@@ -22,32 +22,25 @@ Versions follow Semantic Versioning 2.0.0. The current application checks Major-
 lcmd-kb/
 ├── manifest.json
 ├── README.md
-├── commands/
-│   ├── common/{en-US,zh-CN}/
-│   ├── linux/{en-US,zh-CN}/
-│   ├── windows/{en-US,zh-CN}/
-│   └── macos/{en-US,zh-CN}/
-└── tasks/
+└── commands/
     ├── common/{en-US,zh-CN}/
     ├── linux/{en-US,zh-CN}/
-    ├── windows/{en-US,zh-CN}/
-    └── macos/{en-US,zh-CN}/
+    └── windows/{en-US,zh-CN}/
 ```
 
 ## Platform and language rules
 
-- `commands/` contains command reference pages; `tasks/` contains task guides.
-- Supported platform directory names are `common`, `linux`, `windows`, and `macos`.
-- `en-US/` contains English pages; `zh-CN/` contains Simplified Chinese pages.
+- `commands/` is the only knowledge-document directory. The repository does not use a separate `tasks/` document type or directory.
+- First-release platform directories are `common`, `linux`, and `windows`. The `common` directory is for cross-platform tools such as Git, Python, and Docker; it is not a collection of operating-system built-in commands.
+- `zh-CN/` contains Simplified Chinese pages; `en-US/` contains English pages.
 - Platform-specific pages take precedence over pages with the same filename in `common`.
-- If a platform-specific page is absent, the application may use the matching `common` page as a fallback.
+- If a platform-specific page is absent, the application may use the matching `common` page as a fallback. A platform-specific match is returned on its own and is not merged with the common page.
+- Linux Mint, Ubuntu, and Debian share the Linux documentation directory.
 - The current loader scans only top-level `*.md` files in each platform/language directory; it does not recurse into nested directories.
 
 ## Markdown page format
 
-Each page uses TOML Front Matter delimited by standalone `+++` lines.
-
-A command page requires a non-empty `summary` and a non-empty Markdown body:
+Each command page uses TOML Front Matter delimited by standalone `+++` lines. A page requires a non-empty `summary` and a non-empty Markdown body:
 
 ```markdown
 +++
@@ -59,33 +52,18 @@ summary = "Display files and directories in the current location."
 Describe the command syntax and practical examples here.
 ```
 
-A task page also requires `summary` and a non-empty body. It may include a `commands` array of command names:
+## Integration-test sample pages
 
-```markdown
-+++
-summary = "List files in the current directory."
-commands = ["dir"]
-+++
-
-## Steps
-
-Describe the task procedure here.
-```
-
-## English sample pages
-
-These short pages are integration-test samples, not a complete command reference:
+The following English pages are retained as integration-test samples, not as a complete command reference:
 
 - `commands/windows/en-US/dir.md`: Windows-specific `dir` page.
 - `commands/common/en-US/dir.md`: same-name shared fallback for checking platform precedence.
 - `commands/common/en-US/git.md`: shared command page for checking common fallback.
-- `tasks/windows/en-US/list-files.md`: sample task page.
 
 ## Contribution status
 
 - [x] Create the knowledge-base root and version manifest.
-- [x] Create command and task directories for common, Linux, Windows, and macOS.
+- [x] Create command directories for common, Linux, and Windows.
 - [x] Add `zh-CN` and `en-US` language directories.
-- [x] Add a minimal set of English sample pages for integration testing.
+- [x] Add a minimal set of English sample command pages for integration testing.
 - [ ] Gradually expand and validate the command catalog.
-- [ ] Gradually expand and validate the task catalog.
