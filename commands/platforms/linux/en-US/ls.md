@@ -1,6 +1,7 @@
 +++
 summary = "List directory contents and control output format or hidden-file visibility."
 +++
+---
 
 ## Purpose
 

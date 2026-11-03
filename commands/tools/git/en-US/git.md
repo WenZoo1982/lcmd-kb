@@ -1,6 +1,7 @@
 +++
 summary = "Navigate common Git subcommands by everyday version-control tasks."
 +++
+---
 
 # Git command navigation
 

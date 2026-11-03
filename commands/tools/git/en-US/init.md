@@ -1,6 +1,7 @@
 +++
 summary = "Create a new local Git repository in the current or specified directory."
 +++
+---
 
 ## Purpose
 
