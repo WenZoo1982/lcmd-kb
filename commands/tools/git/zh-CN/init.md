@@ -1,32 +1,32 @@
 +++
-summary = "在当前项目目录中创建新的本地 Git 仓库。"
+summary = "在当前目录创建 Git 仓库。"
 +++
 ---
 
 ## 用途
 
-将当前目录初始化为 Git 仓库，之后可以使用 Git 跟踪文件变化。
+开始用 Git 管理一个尚未进行版本控制的项目。
 
 ## 基本语法
 
 ```bash
-git init [目录]
+git init
+git init <目录>
 ```
 
 ## 常用参数
 
-| 想要做什么 | 命令 | 说明 |
-|---|---|---|
-| 初始化当前目录 | `git init` | 在当前目录创建仓库 |
-| 初始化指定目录 | `git init my-project` | 创建目录并初始化仓库 |
+- `-b <名称>`：指定初始分支名。
+- `--bare`：创建裸仓库，通常用于服务器端共享仓库。
 
 ## 常用示例
 
 ```bash
-cd my-project
 git init
+git init -b main
+git init my-project
 ```
 
-## 必要注意事项
+## 更多参数
 
-`git init` 只创建本地仓库，不会自动创建远程仓库，也不会自动提交文件。
+本文仅收录常用参数。如需了解完整参数及详细说明，请查阅 [Git 官方文档](https://git-scm.com/docs/git-init)。
